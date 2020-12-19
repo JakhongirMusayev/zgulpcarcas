@@ -10,3 +10,34 @@
    "gulp-group-css-media-queries": "^1.2.2",
    "gulp-rename": "^2.0.0",
    "gulp-sass": "^4.1.0"
+4. Quyidagilar sozlandi:
+   "gulp-imagemin": "^7.1.0",
+   "gulp-uglify-es": "^2.0.0",
+   "gulp-webp": "^4.0.1",
+   "gulp-webp-css": "^1.1.0",
+   "gulp-webp-html": "^1.0.2"
+   4.1. Fontlar bo'yicha muammolar bo'ldi, shuning uchun olib tashladim, hozircha.
+   const ttf2woff = require('gulp-ttf2woff');
+   const ttf2woff2 = require('gulp-ttf2woff2');
+   const otf2ttf = require('gulp-fonter');
+   // fonts
+   function fonts() {
+   src(path.src.fonts)
+   .pipe(ttf2woff())
+   .pipe(dest(path.build.fonts));
+   return src(path.src.fonts)
+   .pipe(ttf2woff2())
+   .pipe(dest(path.build.fonts));
+   }
+   // Bir marta qo'lda (alohida) ishga tushuriladigan task
+   gulp.task('otf2ttf', function () {
+   return src([sourceFolder + '/fonts/*.otf'])
+   .pipe(
+   fonter({
+   formats: ['ttf']
+   })
+   )
+   .pipe(dest(sourceFolder + '/font/'))
+   });
+   let build = gulp.series(clean, gulp.parallel(html, css, javascript, fonts, images));
+   exports.fonts = fonts;
